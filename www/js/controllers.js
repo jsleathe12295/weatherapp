@@ -2,6 +2,7 @@
  * Its job is to provide data (from the weatherData service) for display
  * by the html page (index.html).
  */
+ 
 weatherApp.controller('MainCtrl',['$scope','$state','weatherData','LocationStore', function($scope, $state, weatherData, LocationStore) {
   //read default settings into scope
   console.log('inside home');
