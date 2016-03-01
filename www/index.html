@@ -26,228 +26,161 @@
   <script src="js/app.js"></script>
   <script src="js/services.js"></script>
   <script src="js/controllers.js"></script>
+  <script src="js/weathersettings.js"></script>
 
 
 </head>
 
 <body ng-app="weather" class="background">
 
-  <!-- TODO: BUG: header contents aren't centered. -->
+
   <ion-header-bar class="bar-dark">
     <h1 class="title">Wenham, MA</h1>
+    <button class="button"  ng-click="temperatureUnitChange(unit)" >Toggle Units (&degF/&degC)</button>
+    <button class="button icon-right ion-plus"></button>
   </ion-header-bar>
 
-  <!-- <ion-nav-bar class="bar-positive">
-    </ion-nav-bar> -->
   <ion-pane ng-controller="MainCtrl">
     <ion-content scroll="true" class="style">
       <div class="row row-67 center ">
         <div class="col outer">
+
           <div class="inner">
+            <h1 class="title">Today</h1>
             <script>
               console.log("today")
             </script>
-            Currently: {{tempCurrent}} °F
-            <br> Wind Speed: {{windSpeed}} MPH
-            <br>Humidity: {{humidity}}%
-            <br>Visibility: {{visibility}}%
-            <br>Summary: {{summary}}
+            Currently: {{place.daily.data[0].temperatureMax}} {{unit.text}}
+            <br> Wind Speed: {{place.daily.data[0].windSpeed}} MPH
+            <br>Humidity: {{place.daily.data[0].humidity}}%
+            <br>Visibility: {{place.daily.data[0].visibility}}%
+            <br>Summary: {{place.daily.data[0].summary}}
 
+          </div>
+          <div class="container">
+              <form ng-submit="getLatLngAndWeather(zipCode)">
+                <input type="text" maxLength="5" ng-model="zipCode" name="zipCode" class="zip-input"> </form>
+              <button class="btn btn-default zip-button" ng-click="getLatLngAndWeather(zipCode)" type="submit">change zip</button>
           </div>
         </div>
       </div>
 
-
-
-      <!--  <button on-touch="onTouch()" class="button button-dark monday">
-          <div class="row row-33">
-            <div class="col center ">M
-              <br> {{tempTonightLow}} °F</div>
-          </div>
-        </button>
-
-        <div class="row row-33">
-        <button on-touch="onTouch()" class="button button-dark Tuesday">
-
-            <div class="col center ">T
-              <br> {{tempTomorrowHigh}} °F</div>
-
-      </div>
-      </button>
-      </div>
-
-      <div class="outerday ">
-        <div class="innerday">
-          <div class="dropdown">
-
-            <button class=" size btn btn-primary dropdown-toggle monday" type="button" data-toggle="dropdown">M
-            </button>
-            <ul class="dropdown-menu">
-              <li>Temperature: {{week}}°F</li>
-              <li>Wind Speed: Test</li>
-              <li>visibility: Test</li>
-            </ul>
-          </div>
-          <div class="dropdown">
-            <button class="size btn btn-primary dropdown-toggle monday" type="button" data-toggle="dropdown">T
-            </button>
-            <ul class="dropdown-menu">
-              <li>Temperature: {{week}}°F</li>
-              <li>Wind Speed: Test</li>
-              <li>visibility: Test</li>
-            </ul>
-
-
-          </div>
-        </div>
-      </div>
-
-      <div style="display:table; width:100%; text-align:center;">
-        <div style="display:table-row;">
-          <div style="display:table-cell; width:5%;">
-            <div class="dropdown ">
-
-              <button class="btn btn-responsive size btn btn-primary dropdown-toggle monday" type="button" data-toggle="dropdown">M
-              </button>
-              <ul class="dropdown-menu fontsize">
-                <li>Temperature: {{week}}°F</li>
-                <li>Wind Speed: Test</li>
-                <li>visibility: Test</li>
-              </ul>
-            </div>
-          </div>
-          <div style="display:table-cell; width:5%;">
-            <div class="dropdown">
-              <button class="btn btn-responsive size btn btn-primary dropdown-toggle monday" type="button" data-toggle="dropdown">T
-              </button>
-              <ul class="dropdown-menu fontsize">
-                <li>Temperature: {{week}}°F</li>
-                <li>Wind Speed: Test</li>
-                <li>visibility: Test</li>
-              </ul>
-            </div>
-          </div>
-          <div style="display:table-cell; width:5%;"><div class="dropdown">
-            <button class="btn btn-responsive size btn btn-primary dropdown-toggle monday" type="button" data-toggle="dropdown">W
-            </button>
-            <ul class="dropdown-menu fontsize">
-              <li>Temperature: {{week}}°F</li>
-              <li>Wind Speed: Test</li>
-              <li>visibility: Test</li>
-            </ul>
-
-
-          </div>
-        </div>
-          <div style="display:table-cell; width:5%;"><div class="dropdown">
-            <button class="btn btn-responsive size btn btn-primary dropdown-toggle monday" type="button" data-toggle="dropdown">Th
-            </button>
-            <ul class="dropdown-menu fontsize">
-              <li>Temperature: {{week}}°F</li>
-              <li>Wind Speed: Test</li>
-              <li>visibility: Test</li>
-            </ul>
-
-
-          </div>
-        </div>
-          <div style="display:table-cell; width:5%;"><div class="dropdown">
-            <button class="btn btn-responsive size btn btn-primary dropdown-toggle monday" type="button" data-toggle="dropdown">F
-            </button>
-            <ul class="dropdown-menu fontsize">
-              <li>Temperature: {{week}}°F</li>
-              <li>Wind Speed: Test</li>
-              <li>visibility: Test</li>
-            </ul>
-
-
-          </div>
-        </div>
-          <div style="display:table-cell; width:5%;"><div class="dropdown">
-            <button class="btn btn-responsive size btn btn-primary dropdown-toggle monday" type="button" data-toggle="dropdown">Sa
-            </button>
-            <ul class="dropdown-menu fontsize">
-              <li>Temperature: {{week}}°F</li>
-              <li>Wind Speed: Test</li>
-              <li>visibility: Test</li>
-            </ul>
-          </div>
-        </div>
-        <div style="display:table-cell; width:5%;"><div class="dropdown">
-          <button class="btn btn-responsive size btn btn-primary dropdown-toggle monday" type="button" data-toggle="dropdown">Su
-          </button>
-          <ul class="dropdown-menu fontsize">
-            <li>Temperature: {{week}}°F</li>
-            <li>Wind Speed: Test</li>
-            <li>visibility: Test</li>
-          </ul>
-        </div>
-      </div>
-        </div>
-      </div>
-
-    <div class="container">
-      <div class="row-fluid" data-toggle="collapse" data-target="#collapseTwo">
-        <div class="span1">Su</div>
-      </div>
-      <div id="collapseTwo" class="row-fluid collapse in">
-
-        <div class="span9">
-          <br>temp: {{ place.daily.data[1].temperatureMax }}
+      <div class="card">
+        <div class="item item-text-wrap">
+          <h1>{{getWeek()[0]}}</h1>
+          <h5>High</h5>
+          <label>{{ place.daily.data[1].temperatureMax }}°F</label>
           <br>
-          <br> Details 3
+          <h5>Low</h5>
+          <label>{{ place.daily.data[1].temperatureMin }}°F</label>
+          <br>
+          <h5>Wind Speed</h5>
+          <label>{{ place.daily.data[1].windSpeed }} MPH</label>
+          <br>
+          <h5>Summary</h5>
+          <label>{{ place.daily.data[1].summary }}</label>
         </div>
       </div>
--->
-
-  <div class="card">
-    <div class="item item-text-wrap">
-      <h1>Monday</h1>
-    <h5>Temperature</h5><label>{{ place.daily.data[1].temperatureMax }}</label>
-  <br><h5>Wind Speed</h5><label>{{ place.daily.data[1].windSpeed }} MPH</label>
-  <br><h5>Visibility</h5><label>{{ place.daily.data[1].visibility }}</label>
-  <br><h5>Summary</h5><label>{{ place.daily.data[1].summary }}</label>
-    </div>
-  </div>
-  <div class="card">
-    <div class="item item-text-wrap">
-      <h1>Tuesday</h1>
-    <h5>Temperature</h5><label>{{ place.daily.data[2].temperatureMax }}</label>
-  <br><h5>Wind Speed</h5><label>{{ place.daily.data[2].windSpeed }} MPH</label>
-  <br><h5>Visibility</h5><label>{{ place.daily.data[2].visibility }}</label>
-  <br><h5>Summary</h5><label>{{ place.daily.data[2].summary }}</label>
-    </div>
-  </div>
-  <div class="card">
-    <div class="item item-text-wrap">
-      <h1>Wednesday</h1>
-    <h5>Temperature</h5><label>{{ place.daily.data[3].temperatureMax }}</label>
-  <br><h5>Wind Speed</h5><label>{{ place.daily.data[3].windSpeed }} MPH</label>
-  <br><h5>Visibility</h5><label>{{ place.daily.data[3].visibility }}</label>
-  <br><h5>Summary</h5><label>{{ place.daily.data[3].summary }}</label>
-    </div>
-  </div>
-  <div class="card">
-    <div class="item item-text-wrap">
-      <h1>Thursday</h1>
-    <h5>Temperature</h5><label>{{ place.daily.data[4].temperatureMax }}</label>
-  <br><h5>Wind Speed</h5><label>{{ place.daily.data[4].windSpeed }} MPH</label>
-  <br><h5>Visibility</h5><label>{{ place.daily.data[4].visibility }}</label>
-  <br><h5>Summary</h5><label>{{ place.daily.data[4].summary }}</label>
-    </div>
-  </div>
-  <div class="card">
-    <div class="item item-text-wrap">
-      <h1>Friday</h1>
-    <h5>Temperature</h5><label>{{ place.daily.data[5].temperatureMax }}</label>
-  <br><h5>Wind Speed</h5><label>{{ place.daily.data[5].windSpeed }} MPH</label>
-  <br><h5>Visibility</h5><label>{{ place.daily.data[5].visibility }}</label>
-  <br><h5>Summary</h5><label>{{ place.daily.data[5].summary }}</label>
-    </div>
-  </div>
+      <div class="card">
+        <div class="item item-text-wrap">
+          <h1>{{getWeek()[1]}}</h1>
+          <h5>High</h5>
+          <label>{{ place.daily.data[2].temperatureMax }}°F</label>
+          <br>
+          <h5>Low</h5>
+          <label>{{ place.daily.data[2].temperatureMin }}°F</label>
+          <br>
+          <h5>Wind Speed</h5>
+          <label>{{ place.daily.data[2].windSpeed }} MPH</label>
+          <br>
+          <h5>Summary</h5>
+          <label>{{ place.daily.data[2].summary }}</label>
+        </div>
+      </div>
+      <div class="card">
+        <div class="item item-text-wrap">
+          <h1>{{getWeek()[2]}}</h1>
+          <h5>High</h5>
+          <label>{{ place.daily.data[3].temperatureMax }}°F</label>
+          <br>
+          <h5>Low</h5>
+          <label>{{ place.daily.data[3].temperatureMin }}°F</label>
+          <br>
+          <h5>Wind Speed</h5>
+          <label>{{ place.daily.data[3].windSpeed }} MPH</label>
+          <br>
+          <h5>Summary</h5>
+          <label>{{ place.daily.data[3].summary }}</label>
+        </div>
+      </div>
+      <div class="card">
+        <div class="item item-text-wrap">
+          <h1>{{getWeek()[3]}}</h1>
+          <h5>High</h5>
+          <label>{{ place.daily.data[4].temperatureMax }}°F</label>
+          <br>
+          <h5>Low</h5>
+          <label>{{ place.daily.data[4].temperatureMin}}°F</label>
+          <br>
+          <h5>Wind Speed</h5>
+          <label>{{ place.daily.data[4].windSpeed }} MPH</label>
+          <br>
+          <h5>Summary</h5>
+          <label>{{ place.daily.data[4].summary }}</label>
+        </div>
+      </div>
+      <div class="card">
+        <div class="item item-text-wrap">
+          <h1>{{getWeek()[4]}}</h1>
+          <h5>High</h5>
+          <label>{{ place.daily.data[5].temperatureMax }}°F</label>
+          <br>
+          <h5>Low</h5>
+          <label>{{ place.daily.data[5].temperatureMin }}°F</label>
+          <br>
+          <h5>Wind Speed</h5>
+          <label>{{ place.daily.data[5].windSpeed }} MPH</label>
+          <br>
+          <h5>Summary</h5>
+          <label>{{ place.daily.data[5].summary }}</label>
+        </div>
+      </div>
+      <div class="card">
+        <div class="item item-text-wrap">
+          <h1>{{getWeek()[5]}}</h1>
+          <h5>High</h5>
+          <label>{{ place.daily.data[6].temperatureMax }}°F</label>
+          <br>
+          <h5>Low</h5>
+          <label>{{ place.daily.data[6].temperatureMin}}°F</label>
+          <br>
+          <h5>Wind Speed</h5>
+          <label>{{ place.daily.data[6].windSpeed}} MPH</label>
+          <br>
+          <h5>Summary</h5>
+          <label>{{ place.daily.data[6].summary }}</label>
+        </div>
+      </div>
+      <div class="card">
+        <div class="item item-text-wrap">
+          <h1>{{getWeek()[6]}}</h1>
+          <h5>High</h5>
+          <label>{{ place.daily.data[7].temperatureMax }}°F</label>
+          <br>
+          <h5>Low</h5>
+          <label>{{ place.daily.data[7].temperatureMin }}°F</label>
+          <br>
+          <h5>Wind Speed</h5>
+          <label>{{ place.daily.data[7].windSpeed }} MPH</label>
+          <br>
+          <h5>Summary</h5>
+          <label>{{ place.daily.data[7].summary }}</label>
+        </div>
+      </div>
 
 
 
 
 </body>
+
 </html>
